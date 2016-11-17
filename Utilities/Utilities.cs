@@ -142,6 +142,15 @@ namespace Utilities
             CloseBPCSConection();
             return DTBX;
         }
+
+        public DataTable GetBPCSBOM(string Item, string EffectiveDate)
+        {
+            DataTable X = new DataTable();
+
+
+
+            return X;
+        }
         #endregion
 
         #region SQL
