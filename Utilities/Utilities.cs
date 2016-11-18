@@ -143,13 +143,79 @@ namespace Utilities
             return DTBX;
         }
 
-        public DataTable GetBPCSBOM(string Item, string EffectiveDate)
+        public static DataTable GetBPCSBOM(string Item, string EffectiveDate, string Facility, int lvl)
         {
             DataTable X = new DataTable();
+            DataTable Y = new DataTable();
+            int level = lvl + 1;
+            string sqls;
 
+            sqls = "SELECT ";
+            sqls += "   " + Convert.ToString(level) + ", ";
+            sqls += "   LTRIM(RTRIM(B.BPROD))  AS PARENT, ";
+            sqls += "   LTRIM(RTRIM(B.BCHLD))  AS ITEM, ";
+            sqls += "   LTRIM(RTRIM(I.IDESC))  AS DESC, ";
+            sqls += "   LTRIM(RTRIM(I.IDSCE))  AS EXT_DESC, ";
+            sqls += "   LTRIM(RTRIM(I.IITYP))  AS TYPE, ";
+            sqls += "   LTRIM(RTRIM(B.BSEQ))   AS SEQ, ";
+            sqls += "   LTRIM(RTRIM(B.BQREQ))  AS QTY_REQ, ";
+            sqls += "   LTRIM(RTRIM(I.ICLAS))  AS ITEM_CLASS, ";
+            sqls += "   LTRIM(RTRIM(I.IUMS))   AS STOCK_UOM, ";
+            sqls += "   LTRIM(RTRIM(B.BMSCP))  AS SCRAP, ";
+            sqls += "   LTRIM(RTRIM(B.BBUBB))  AS BUBBLE_NUMBER, ";
+            sqls += "   LTRIM(RTrim(B.BMBOMM)) AS ALTERNATIVE, ";
+            sqls += "   LTRIM(RTrim(I.IVEND))  AS VENDOR_NUM, ";
+            sqls += "   LTRIM(RTrim(X.VNDNAM)) AS VENDOR_NAME, ";
+            sqls += "   LTRIM(RTrim(C.CFTLVL)) AS ACT_COST, ";
+            sqls += "   LTRIM(RTrim(S.CFTLVL)) AS STD_COST ";
+            sqls += "FROM MBML01 AS B ";
+            sqls += "   INNER JOIN IIML02 AS I ON I.IPROD = B.BCHLD ";
+            sqls += "   LEFT  JOIN AVML01 AS X ON I.IVEND = X.VENDOR ";
+            sqls += "   LEFT  JOIN CMFL01 AS C ON I.IPROD = C.CFPROD AND C.CFCSET = 1 AND C.CFCBKT = 1 AND C.CFFAC = '" + Facility + "' ";
+            sqls += "   LEFT JOIN CMFL01 AS S ON I.IPROD = S.CFPROD AND S.CFCSET = 2 AND S.CFCBKT = 1 AND S.CFFAC = '" + Facility + "' ";
+            sqls += "WHERE B.BPROD IN('" + Item + "') ";
+            sqls += "   AND BMWHS IN('" + Facility + "') ";
+            sqls += "   AND B.BDDIS >= " + EffectiveDate + " AND B.BDEFF <= " + EffectiveDate + " AND B.BMBOMM <> 'AL' ";
+            sqls += "ORDER BY B.BPROD, B.BMBOMM, B.BSEQ ASC";
 
+            X = GetBPCSData(sqls);
 
-            return X;
+            foreach (DataColumn c in X.Columns)
+            {
+                Y.Columns.Add(c.ColumnName);
+            }
+
+            foreach (DataRow r in X.Rows)
+            {
+                DataRow A = Y.NewRow();
+                for (int i = 0; i <= Y.Columns.Count - 1; i++)
+                {
+                    A[i] = r[i];
+                }
+                Y.Rows.Add(A);
+
+                if (r["Type"].ToString() != "R")
+                {
+                    foreach (DataRow s in GetBPCSBOM(r["Item"].ToString(), EffectiveDate, Facility, level).Rows)
+                    {
+                        DataRow B = Y.NewRow();
+                        for (int i = 0; i <= Y.Columns.Count - 1; i++)
+                        {
+                            B[i] = s[i];
+                        }
+                        Y.Rows.Add(B);
+                    }
+                }
+            }
+
+            if (Y.Rows.Count <= 0 && lvl == 0)
+            {
+                Y.Columns.Add("Error");
+                Y.Rows.Add();
+                Y.Rows[0][0] = "No records found.";
+            }
+
+            return Y;
         }
         #endregion
 

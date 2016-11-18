@@ -3,3 +3,8 @@ c:\users\aherrera\documents\visual studio 2015\Projects\Utilities\Utilities\bin\
 c:\users\aherrera\documents\visual studio 2015\Projects\Utilities\Utilities\bin\Debug\Utilities.pdb
 c:\users\aherrera\documents\visual studio 2015\Projects\Utilities\Utilities\obj\Debug\Utilities.dll
 c:\users\aherrera\documents\visual studio 2015\Projects\Utilities\Utilities\obj\Debug\Utilities.pdb
+C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\bin\Debug\Utilities.dll
+C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\bin\Debug\Utilities.pdb
+C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.dll
+C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.pdb
