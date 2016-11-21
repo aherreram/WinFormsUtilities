@@ -245,8 +245,10 @@ namespace Utilities
                 }
             }
 
-            if (Y.Rows.Count <= 0 && lvl == 0)
+            if (X.Rows.Count <= 0 && lvl == 0)
             {
+                Y.Rows.Clear();
+                Y.Columns.Clear();
                 Y.Columns.Add("Error");
                 Y.Rows.Add();
                 Y.Rows[0][0] = "No records found.";
