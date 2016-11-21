@@ -143,15 +143,39 @@ namespace Utilities
             return DTBX;
         }
 
-        public static DataTable GetBPCSBOM(string Item, string EffectiveDate, string Facility, int lvl)
+        public static DataTable GetBPCSBOM(string Model, string Item, string EffectiveDate, string Facility, int lvl)
         {
             DataTable X = new DataTable();
             DataTable Y = new DataTable();
+            DataTable mdlh = new DataTable();
             int level = lvl + 1;
-            string sqls;
+            string sqls, modelh;
+
+            modelh = "SELECT ";
+            modelh += "   " + Model + " AS MODEL, ";
+            modelh += "   0 AS LEVEL, ";
+            modelh += "   '' AS PARENT, ";
+            modelh += "   ''  AS ITEM, ";
+            modelh += "   LTRIM(RTRIM(I.IDESC))  AS DESC, ";
+            modelh += "   LTRIM(RTRIM(I.IDSCE))  AS EXT_DESC, ";
+            modelh += "   LTRIM(RTRIM(I.IITYP))  AS TYPE, ";
+            modelh += "   ''  AS SEQ, ";
+            modelh += "   1  AS QTY_REQ, ";
+            modelh += "   LTRIM(RTRIM(I.ICLAS))  AS ITEM_CLASS, ";
+            modelh += "   LTRIM(RTRIM(I.IUMS))   AS STOCK_UOM, ";
+            modelh += "   ''  AS SCRAP, ";
+            modelh += "   ''  AS BUBBLE_NUMBER, ";
+            modelh += "   '' AS ALTERNATIVE, ";
+            modelh += "   '' AS VENDOR_NUM, ";
+            modelh += "   '' AS VENDOR_NAME, ";
+            modelh += "   '' AS ACT_COST, ";
+            modelh += "   '' AS STD_COST ";
+            modelh += "FROM IIML01 AS I ";
+            modelh += "WHERE I.IPROD = '" + Model + "'";
 
             sqls = "SELECT ";
-            sqls += "   " + Convert.ToString(level) + ", ";
+            sqls += "   " + Model + " AS MODEL, ";
+            sqls += "   " + Convert.ToString(level) + " AS LEVEL, ";
             sqls += "   LTRIM(RTRIM(B.BPROD))  AS PARENT, ";
             sqls += "   LTRIM(RTRIM(B.BCHLD))  AS ITEM, ";
             sqls += "   LTRIM(RTRIM(I.IDESC))  AS DESC, ";
@@ -180,11 +204,24 @@ namespace Utilities
 
             X = GetBPCSData(sqls);
 
+            //Adding the necesary columns to the Final Table
             foreach (DataColumn c in X.Columns)
             {
                 Y.Columns.Add(c.ColumnName);
             }
 
+            //Adding the header row of the model
+            if(level == 1){
+                DataRow m = Y.NewRow();
+                mdlh = GetBPCSData(modelh);
+                for(int i=0; i<= mdlh.Columns.Count - -1; i++)
+                {
+                    m[i] = mdlh.Rows[0][i];
+                }
+                Y.Rows.Add(m);
+            }
+
+            //Adding the Childs of the Item
             foreach (DataRow r in X.Rows)
             {
                 DataRow A = Y.NewRow();
@@ -196,7 +233,7 @@ namespace Utilities
 
                 if (r["Type"].ToString() != "R")
                 {
-                    foreach (DataRow s in GetBPCSBOM(r["Item"].ToString(), EffectiveDate, Facility, level).Rows)
+                    foreach (DataRow s in GetBPCSBOM(Model,r["Item"].ToString(), EffectiveDate, Facility, level).Rows)
                     {
                         DataRow B = Y.NewRow();
                         for (int i = 0; i <= Y.Columns.Count - 1; i++)
