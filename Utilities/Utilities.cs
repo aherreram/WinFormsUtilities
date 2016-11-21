@@ -211,14 +211,18 @@ namespace Utilities
             }
 
             //Adding the header row of the model
-            if(level == 1){
+            if (level == 1)
+            {
                 DataRow m = Y.NewRow();
-                mdlh = GetBPCSData(modelh);
-                for(int i=0; i<= mdlh.Columns.Count - 1; i++)
+                mdlh = FnP.GetBPCSData(modelh);
+                if (mdlh.Rows.Count > 0)
                 {
-                    m[i] = mdlh.Rows[0][i];
+                    for (int i = 0; i <= mdlh.Columns.Count - 1; i++)
+                    {
+                        m[i] = mdlh.Rows[0][i];
+                    }
+                    Y.Rows.Add(m);
                 }
-                Y.Rows.Add(m);
             }
 
             //Adding the Childs of the Item
