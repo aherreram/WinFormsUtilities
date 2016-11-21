@@ -214,7 +214,7 @@ namespace Utilities
             if(level == 1){
                 DataRow m = Y.NewRow();
                 mdlh = GetBPCSData(modelh);
-                for(int i=0; i<= mdlh.Columns.Count - -1; i++)
+                for(int i=0; i<= mdlh.Columns.Count - 1; i++)
                 {
                     m[i] = mdlh.Rows[0][i];
                 }
