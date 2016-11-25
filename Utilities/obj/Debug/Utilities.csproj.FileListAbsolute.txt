@@ -8,3 +8,8 @@ C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilit
 C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
 C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.dll
 C:\Users\aherrera\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.pdb
+C:\Users\noe.OSCA-ARCOSA\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\bin\Debug\Utilities.dll
+C:\Users\noe.OSCA-ARCOSA\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\bin\Debug\Utilities.pdb
+C:\Users\noe.OSCA-ARCOSA\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+C:\Users\noe.OSCA-ARCOSA\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.dll
+C:\Users\noe.OSCA-ARCOSA\Documents\Visual Studio 2015\Projects\WinFormsUtilities\Utilities\obj\Debug\Utilities.pdb

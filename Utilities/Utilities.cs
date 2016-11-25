@@ -413,9 +413,9 @@ namespace Utilities
         {
             System.Data.DataTable ret = new System.Data.DataTable();
             System.Data.DataRow dr = ret.NewRow();
-            dr[1] = fun + "\r\n\n" + "Please try to run the process again, if the problem persist, please contact your system administrator.";
             ret.Columns.Add("Error");
             ret.Rows.Add(dr);
+            dr[0] = fun + "\r\n\n" + "Please try to run the process again, if the problem persist, please contact your system administrator.";
             return ret;
         }
         #endregion
